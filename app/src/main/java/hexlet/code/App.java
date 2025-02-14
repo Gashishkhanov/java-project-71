@@ -12,18 +12,18 @@ import java.util.concurrent.Callable;
 public class App implements Callable<String> {
 
     @Parameters(index = "0", description = "Path to first file")
-    private String filepath1;
+    private String filePath1;
 
     @Parameters(index = "1", description = "Path to second file")
-    private String filepath2;
+    private String filePath2;
 
-    @Option(names = {"-f", "--format"}, description = "Output format [default: stylish]")
-    private String format = "stylish";
+    @Option(names = {"-f", "--format"}, description = "Output format [stylish, plain, json]", defaultValue = "stylish")
+    private String format;
 
     @Override
     public String call() {
         try {
-            String result = Differ.generate(filepath1, filepath2);
+            String result = Differ.generate(filePath1, filePath2, format);
             System.out.println(result);
             return result;
         } catch (Exception e) {
