@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class DifferTest {
-    private static final String FIXTURES_PATH = "src/test/resources/";
+    private static final String FIXTURES_PATH = "src/test/resources/fixtures/";
 
     @Test
     void testGenerate() throws Exception {

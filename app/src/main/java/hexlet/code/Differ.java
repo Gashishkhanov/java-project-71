@@ -1,34 +1,37 @@
 package hexlet.code;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import hexlet.code.formatters.StylishFormatter;
+
+import java.util.*;
 
 public class Differ {
     public static String generate(String filePath1, String filePath2) throws Exception {
+        List<DifferEntry> diff = buildDiff(filePath1, filePath2);
+        return StylishFormatter.format(diff);
+    }
+
+    private static List<DifferEntry> buildDiff(String filePath1, String filePath2) throws Exception {
         Map<String, Object> data1 = Parser.parse(filePath1);
         Map<String, Object> data2 = Parser.parse(filePath2);
 
-        Set<String> keys = new TreeSet<>();
-        keys.addAll(data1.keySet());
+        Set<String> keys = new TreeSet<>(data1.keySet());
         keys.addAll(data2.keySet());
 
-        StringBuilder result = new StringBuilder("{\n");
-
+        List<DifferEntry> diff = new ArrayList<>();
         for (String key : keys) {
+            Object value1 = data1.get(key);
+            Object value2 = data2.get(key);
+
             if (data1.containsKey(key) && !data2.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(data1.get(key)).append("\n");
+                diff.add(new DifferEntry(key, value1, null, DifferEntry.Status.REMOVED));
             } else if (!data1.containsKey(key) && data2.containsKey(key)) {
-                result.append("  + ").append(key).append(": ").append(data2.get(key)).append("\n");
-            } else if (!data1.get(key).equals(data2.get(key))) {
-                result.append("  - ").append(key).append(": ").append(data1.get(key)).append("\n");
-                result.append("  + ").append(key).append(": ").append(data2.get(key)).append("\n");
+                diff.add(new DifferEntry(key, null, value2, DifferEntry.Status.ADDED));
+            } else if (!Objects.equals(value1, value2)) {
+                diff.add(new DifferEntry(key, value1, value2, DifferEntry.Status.CHANGED));
             } else {
-                result.append("    ").append(key).append(": ").append(data1.get(key)).append("\n");
+                diff.add(new DifferEntry(key, value1, value2, DifferEntry.Status.UNCHANGED));
             }
         }
-        result.append("}");
-
-        return result.toString();
+        return diff;
     }
 }
