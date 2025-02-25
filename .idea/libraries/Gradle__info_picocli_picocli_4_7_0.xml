@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: info.picocli:picocli:4.7.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="info.picocli" artifactId="picocli" version="4.7.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/info.picocli/picocli/4.7.0/dcdde55edcb523af7814ba47e57a8a097daa208d/picocli-4.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
